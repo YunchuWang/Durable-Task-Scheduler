@@ -15,9 +15,5 @@
         "largePayloadStorageThresholdBytes": 10240
       }
     }
-  },
-  "extensionBundle": {
-    "id": "Microsoft.Azure.Functions.ExtensionBundle.Preview",
-    "version": "[4.29.0, 5.0.0)"
   }
 }

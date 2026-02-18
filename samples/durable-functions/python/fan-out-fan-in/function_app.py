@@ -37,7 +37,7 @@ def fan_out_fan_in_orchestration(context: df.DurableOrchestrationContext):
 def process_item(item: str) -> dict:
     """Process a single work item and return a ~20KB payload."""
     logging.info(f"Processing: {item}")
-    payload = generate_large_payload(20)
+    payload = generate_large_payload(100)
     payload["item"] = item
     logging.info(f"Generated payload for {item}: ~{payload['size_kb']}KB")
     return payload
