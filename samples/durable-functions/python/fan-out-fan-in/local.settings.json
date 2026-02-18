@@ -3,6 +3,7 @@
   "Values": {
     "AzureWebJobsStorage": "UseDevelopmentStorage=true",
     "FUNCTIONS_WORKER_RUNTIME": "python",
-    "DURABLE_TASK_SCHEDULER_CONNECTION_STRING": "Endpoint=http://localhost:8080;TaskHub=default;Authentication=None"
+    "DURABLE_TASK_SCHEDULER_CONNECTION_STRING": "Endpoint=https://wbtwus2-e3f5cthrckbahsch.westus3.durabletask.io;TaskHub=th1;Authentication=ManagedIdentity;ClientId=e08c5c1b-ee63-4dad-bcd9-eefe3f8033cb",
+    "TASKHUB_NAME": "th1"
   }
 }
