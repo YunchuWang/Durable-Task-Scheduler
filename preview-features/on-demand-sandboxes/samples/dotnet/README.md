@@ -85,7 +85,14 @@ dts-ondemand-sandbox-codegen-demo/
 - The Durable Task on-demand sandbox preview packages (`1.25.0-preview.2`) available on
   a NuGet feed you can restore from
 
-## Build the sandbox image
+## Choose a workflow
+
+This sample supports two workflows:
+
+- **Manual/local run:** build and push the sandbox image yourself, then run the orchestrator with `dotnet run`.
+- **Azure deploy with `azd`:** skip the manual build/run sections below and go straight to **Deploy to Azure (Container Apps) with `azd`**. `azd up` provisions the cloud resources, builds and pushes the sandbox image via ACR Tasks, deploys the `main-app` Container App, and the deployed app starts the orchestration on startup.
+
+## Manual: Build the sandbox image
 
 From the demo root:
 
@@ -110,7 +117,7 @@ docker push $IMAGE
 > 2.78.0 linux_arm64 `protoc` binary segfaults under Docker's arm64 emulation.
 > amd64 builds work fine under Rosetta and match what DTS sandboxes run anyway.
 
-## Run the orchestrator
+## Manual: Run the orchestrator
 
 ```bash
 export DTS_ENDPOINT="https://<scheduler-endpoint>"
@@ -141,6 +148,9 @@ The `infra/` folder and `azure.yaml` deploy the **main-app** orchestrator to **A
 Container Apps** with [`azd`](https://learn.microsoft.com/azure/developer/azure-developer-cli/install-azd).
 The sandbox worker image is built and pushed to ACR; DTS starts it on demand, so it is
 never deployed as a Container App.
+
+If you use this path, you do not need to run the manual `docker build`, `docker push`,
+or `dotnet run` commands above.
 
 > The Durable Task Scheduler is **not created** by this template. You pass in an
 > existing one. On-demand Sandboxes is a private-preview feature that must be enabled on

@@ -41,7 +41,14 @@ python/
 - Two user-assigned managed identities (image pull + scheduler connect)
 - An Azure OpenAI deployment of a chat model (GPT-4o, GPT-4.1, etc.)
 
-## Install
+## Choose a workflow
+
+This sample supports two workflows:
+
+- **Manual/local run:** install Python dependencies, build and push the sandbox image yourself, then run the orchestrator with `python main_app.py`.
+- **Azure deploy with `azd`:** skip the manual install/build/run sections below and go straight to **Deploy to Azure (Container Apps) with `azd`**. `azd up` provisions the cloud resources, builds and pushes the sandbox image via ACR Tasks, deploys the `main_app` Container App, and the deployed app starts the orchestration on startup.
+
+## Manual: Install
 
 From the `python/` directory:
 
@@ -50,7 +57,7 @@ pip install -r requirements.txt
 pip install durabletask==1.6.0 durabletask-azuremanaged==1.6.0
 ```
 
-## Build the sandbox image
+## Manual: Build the sandbox image
 
 From the `python/` directory:
 
@@ -69,7 +76,7 @@ az acr login --name $ACR
 docker push $IMAGE
 ```
 
-## Run the orchestrator
+## Manual: Run the orchestrator
 
 ```bash
 export DTS_ENDPOINT="https://<scheduler-endpoint>"
@@ -99,6 +106,9 @@ The `infra/` folder and `azure.yaml` deploy the **main_app** orchestrator to **A
 Container Apps** with [`azd`](https://learn.microsoft.com/azure/developer/azure-developer-cli/install-azd).
 The sandbox worker image (`remote_worker.py`) is built and pushed to ACR; DTS starts it
 on demand, so it is never deployed as a Container App.
+
+If you use this path, you do not need to run the manual `pip install`, `docker build`,
+`docker push`, or `python main_app.py` commands above.
 
 > The Durable Task Scheduler is **not created** by this template. You pass in an
 > existing one. On-demand Sandboxes is a private-preview feature that must be enabled on
