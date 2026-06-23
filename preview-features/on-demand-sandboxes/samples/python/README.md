@@ -126,15 +126,29 @@ needs (AcrPull, Durable Task data access, Cognitive Services OpenAI User), and a
 - Azure OpenAI quota for `gpt-5.1` (`GlobalStandard`) in your target region (default
   `eastus`; override with `AZURE_OPENAI_LOCATION`).
 
+> Run all `azd` commands from this sample folder (`preview-features/on-demand-sandboxes/samples/python`),
+> not from the repository root. Running `azd init` at the repository root makes `azd`
+> scan unrelated samples and can fail on tools this sample does not need.
+>
+
 ### Deploy
 
 ```bash
+cd preview-features/on-demand-sandboxes/samples/python
+
 azd auth login && az login
+
+# First time only. Run this from the sample folder so azd uses this azure.yaml.
+azd init
 
 # Point the template at your existing (preview-enabled) scheduler.
 azd env set DTS_SCHEDULER_NAME "<scheduler-name>"
 azd env set DTS_SCHEDULER_RESOURCE_GROUP "<scheduler-resource-group>"
-# Optional overrides: DTS_TASK_HUB (default: default), AZURE_OPENAI_LOCATION
+# Create the sample's user-assigned identity in the scheduler's region so it can
+# be attached to the scheduler. Azure OpenAI can be in a separate region.
+azd env set AZURE_LOCATION "<scheduler-location>"
+azd env set AZURE_OPENAI_LOCATION "<aoai-location-with-gpt-5.1-quota>"
+# Optional override: DTS_TASK_HUB (default: default)
 
 azd up
 ```
