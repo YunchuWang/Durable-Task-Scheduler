@@ -14,11 +14,19 @@ metadata:
 name: dts-ondemand-sandboxes-python
 hooks:
   predeploy:
-    shell: sh
-    run: ./scripts/acr-build.sh
+    windows:
+      shell: pwsh
+      run: ./scripts/acr-build.ps1
+    posix:
+      shell: sh
+      run: ./scripts/acr-build.sh
   postprovision:
-    shell: sh
-    run: ./scripts/attach-scheduler-identity.sh
+    windows:
+      shell: pwsh
+      run: ./scripts/attach-scheduler-identity.ps1
+    posix:
+      shell: sh
+      run: ./scripts/attach-scheduler-identity.sh
 services:
   mainapp:
     project: .
